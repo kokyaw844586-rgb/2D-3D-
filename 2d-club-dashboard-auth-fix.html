@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b0a">
+<title>2D CLUB — Dashboard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Myanmar:wght@400;500;600;700;800&display=swap');
+:root{
+  --bg:#080b0a;--panel:rgba(10,15,14,.94);--line:#29332e;
+  --lime:#c6ff52;--green:#48f58b;--red:#ff334f;--muted:#9ba8a1;
+  --radius:25px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:#f7faf7;font-family:Inter,"Noto Sans Myanmar",sans-serif;
+  background:var(--bg);min-height:100vh;overflow-x:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 82% 5%,rgba(255,25,52,.22),transparent 34%),
+    radial-gradient(ellipse at 8% 42%,rgba(92,255,60,.11),transparent 30%),
+    linear-gradient(135deg,#080b0a 0%,#101411 52%,#070908 100%);
+}
+body:after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.17;
+  background-image:repeating-linear-gradient(135deg,transparent 0 25px,rgba(255,255,255,.035) 26px 27px,transparent 28px 52px);
+}
+.container{width:min(100% - 28px,760px);margin:auto;padding:20px 0 26px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:11px}
+.logo{
+  width:47px;height:47px;border-radius:15px;display:grid;place-items:center;
+  color:#090d09;background:linear-gradient(145deg,#e0ff73,var(--lime));
+  font-size:17px;font-weight:1000;font-style:italic;box-shadow:0 0 25px #b7ff5230;
+  transform:skew(-4deg)
+}
+.brand-name{font-weight:900;font-size:21px;letter-spacing:-1px}
+.brand-sub{font-size:10px;letter-spacing:2px;color:var(--muted);margin-top:3px}
+.demo{border:1px solid #ff43565c;color:#ff6474;background:#ff30400f;border-radius:99px;padding:8px 11px;font-size:10px;font-weight:800;letter-spacing:1.2px;white-space:nowrap}
+.hero{
+  position:relative;overflow:hidden;border:1px solid #ff334f66;border-radius:28px;
+  min-height:208px;padding:24px 22px;margin-bottom:16px;
+  background:linear-gradient(110deg,rgba(8,10,10,.97) 0%,rgba(14,12,14,.9) 56%,rgba(96,8,21,.38) 100%);
+  box-shadow:inset 0 0 50px #ff20300a,0 15px 40px #0006;
+}
+.hero:before{
+  content:"";position:absolute;right:-35px;top:-55px;width:260px;height:260px;border-radius:50%;
+  border:1px solid #ff334f55;box-shadow:0 0 0 18px #ff334f0a,0 0 0 38px #ff334f0a,0 0 0 58px #ff334f08;
+}
+.hero:after{
+  content:"";position:absolute;right:10px;bottom:-25px;width:190px;height:150px;opacity:.38;
+  background:repeating-linear-gradient(125deg,transparent 0 12px,#ff334f 13px 15px,transparent 16px 26px);
+  clip-path:polygon(30% 0,100% 15%,75% 100%,0 82%);
+}
+.hero-copy{position:relative;z-index:2;max-width:68%}
+.brush{font-size:clamp(42px,10vw,67px);font-weight:1000;line-height:.9;letter-spacing:-3px;font-style:italic}
+.brush span{color:var(--lime)}
+.club-word{color:#fff}
+.demo-word{margin-top:10px;color:var(--green);font-size:19px;font-weight:900;font-style:italic;letter-spacing:3px}
+.hero-desc{font-size:12px;color:#d0d8d1;margin-top:13px;line-height:1.8}
+.hero-tag{display:inline-flex;align-items:center;gap:7px;border:1px solid #c6ff5270;color:var(--lime);border-radius:99px;padding:7px 11px;font-size:10px;font-weight:800;letter-spacing:.8px;margin-top:13px}
+.hero-art{position:absolute;right:0;bottom:0;width:44%;height:100%;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.orbit{position:absolute;width:185px;height:185px;border-radius:50%;border:1px solid #ff334f70;box-shadow:0 0 0 14px #ff334f0b,0 0 40px #ff334f24}
+.character{
+  position:relative;margin-top:18px;width:125px;height:158px;
+  background:linear-gradient(145deg,#343a3b,#111516 62%,#080909);
+  clip-path:polygon(26% 5%,57% 0,79% 12%,90% 31%,100% 75%,82% 100%,14% 100%,0 60%,10% 26%);
+  filter:drop-shadow(0 0 15px #ff203055);
+}
+.character:before{content:"";position:absolute;left:28px;top:12px;width:67px;height:54px;background:linear-gradient(160deg,#17191d 0 20%,#45484c 21% 30%,#101114 31% 56%,#4b4c4f 57% 64%,#141619 65%);clip-path:polygon(0 0,100% 0,90% 60%,62% 100%,20% 85%)}
+.character:after{content:"";position:absolute;left:42px;top:43px;width:47px;height:15px;background:linear-gradient(90deg,#ff344d,#ff8c9a,#ff344d);clip-path:polygon(0 10%,100% 0,75% 100%,20% 80%)}
+.cash-fan{position:absolute;right:2px;top:35px;font-size:33px;transform:rotate(-18deg);filter:drop-shadow(0 4px 5px #000)}
+.crown{position:absolute;right:23px;top:14px;color:var(--red);font-size:25px;transform:rotate(12deg)}
+.panel{
+  background:var(--panel);border:1px solid #c6ff5265;border-radius:var(--radius);
+  padding:19px;margin-bottom:15px;box-shadow:0 12px 35px #0005,inset 0 1px #ffffff08;
+  backdrop-filter:blur(12px)
+}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:17px}
+.panel-title{display:flex;align-items:center;gap:9px;font-size:16px;font-weight:800}
+.panel-title .symbol{color:var(--lime);font-size:21px}
+.pill{border:1px solid #c6ff5270;border-radius:99px;padding:7px 10px;color:var(--lime);font-size:10px;font-weight:800;letter-spacing:.7px;white-space:nowrap}
+.result-box{
+  text-align:center;border:2px solid var(--lime);border-radius:22px;padding:19px 12px 15px;
+  background:radial-gradient(ellipse at center,#c6ff5210,transparent 70%),#070a08;
+  box-shadow:0 0 28px #c6ff5210,inset 0 0 22px #c6ff5207;
+}
+.number{font-size:clamp(62px,15vw,90px);line-height:1.05;font-weight:900;letter-spacing:8px;color:var(--lime);text-shadow:0 0 28px #c6ff5238}
+.result-caption{font-size:11px;font-weight:800;letter-spacing:2.6px;color:#e4eae5;margin-top:8px}
+.refresh{
+  width:100%;margin-top:16px;border:0;border-radius:99px;padding:15px 18px;
+  background:linear-gradient(100deg,#c6ff52,#a7ff78);color:#10170a;
+  font:800 15px "Noto Sans Myanmar",Inter,sans-serif;cursor:pointer;
+  box-shadow:0 6px 22px #aaff5230;transition:transform .18s,filter .18s
+}
+.refresh:active{transform:scale(.98)}
+.refresh:disabled{opacity:.65;cursor:wait}
+.message{display:flex;align-items:center;gap:9px;margin:15px 0 0;padding:11px 13px;border:1px solid #303a34;border-radius:15px;color:#c5d0c8;font-size:12px;line-height:1.7;background:#ffffff04}
+.status-dot{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px #c6ff52}
+.message.error .status-dot{background:var(--red);box-shadow:0 0 10px var(--red)}
+.market-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.metric{padding:16px;border:1px solid #2d3832;border-radius:19px;background:linear-gradient(145deg,#111714,#090c0b)}
+.metric-label{font-size:12px;font-weight:700;color:#e7eee8}
+.metric-value{font-size:clamp(24px,6vw,35px);font-weight:900;color:var(--lime);margin:14px 0 6px;overflow-wrap:anywhere}
+.metric-unit{font-size:10px;letter-spacing:1.3px;color:#93a096}
+.metric-icon{color:var(--green);font-size:20px;margin-right:6px}
+.records-empty{text-align:center;padding:20px 10px 13px;color:#aab6ad}
+.empty-icon{font-size:31px;opacity:.75;margin-bottom:10px}
+.record-list{display:grid;gap:9px}
+.record{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid #29342d;border-radius:14px;padding:12px 14px;background:#ffffff04}
+.record-date{font-size:11px;color:var(--muted)}
+.record-number{font-size:24px;font-weight:900;color:var(--lime);letter-spacing:3px}
+.note{border-color:#31563a;background:linear-gradient(110deg,#0b130d,#0a0e0c)}
+.note-title{font-size:13px;color:var(--lime);font-weight:800;margin-bottom:10px}
+.note p{font-size:12px;line-height:1.9;color:#bdc8bf;margin:5px 0}
+.footer{text-align:center;padding:12px 8px 5px;color:#aab5ad;font-size:11px;line-height:2}
+.footer strong{color:var(--lime);font-size:14px;letter-spacing:1px}
+.footer em{color:#d0d8d1}
+@media(min-width:600px){.container{padding-top:28px}.hero{min-height:245px;padding:30px}.panel{padding:23px}.hero-art{width:40%}.character{transform:scale(1.18)}}
+@media(max-width:380px){.container{width:calc(100% - 18px)}.panel{padding:14px}.hero{padding:18px}.brand-name{font-size:18px}.demo{font-size:9px}.market-grid{gap:8px}.metric{padding:12px}.hero-copy{max-width:72%}.hero-art{right:-12px}}
+</style>
+</head>
+<body>
+<main class="container">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">2D</div>
+      <div><div class="brand-name">2D CLUB<span style="color:var(--lime)">.</span></div><div class="brand-sub">THAILAND STOCK MARKET</div></div>
+    </div>
+    <div class="demo">● LIVE API</div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="brush"><span>2D</span> <span class="club-word">CLUB</span></div>
+      <div class="demo-word">NEXT LEVEL</div>
+      <div class="hero-desc">နေ့စဉ် 2D ရလဒ်နှင့် စတော့ဒေတာ<br>တစ်နေရာတည်းမှာ အလွယ်တကူကြည့်ရှုပါ။</div>
+      <div class="hero-tag">⚡ 2D DASHBOARD</div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="orbit"></div><div class="character"></div><div class="cash-fan">💵</div><div class="crown">♛</div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div class="panel-title"><span class="symbol">◈</span> လက်ရှိရလဒ်</div>
+      <div class="pill">▦ TODAY</div>
+    </div>
+    <div class="result-box">
+      <div class="number" id="result">--</div>
+      <div class="result-caption">OFFICIAL RESULT</div>
+    </div>
+    <button class="refresh" id="refresh" onclick="loadResult()">↻ &nbsp; ရလဒ်ပြန်စစ်မယ်</button>
+    <p class="message" id="message"><span class="status-dot"></span><span id="messageText">API ချိတ်ဆက်ရန် အသင့်ဖြစ်ပါပြီ</span></p>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div class="panel-title"><span class="symbol">⌁</span> Market Overview</div>
+      <div class="pill">SET DATA</div>
+    </div>
+    <div class="market-grid">
+      <div class="metric">
+        <div class="metric-label"><span class="metric-icon">↗</span> SET Index</div>
+        <div class="metric-value" id="setIndex">--</div>
+        <div class="metric-unit">POINTS</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label"><span class="metric-icon">▤</span> Trading Value</div>
+        <div class="metric-value" id="setValue">--</div>
+        <div class="metric-unit">MARKET VALUE</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div class="panel-title"><span class="symbol">▤</span> ရလဒ်မှတ်တမ်း</div>
+      <div class="pill" id="recordCount">0 RECORDS</div>
+    </div>
+    <div id="records" class="records-empty">
+      <div class="empty-icon">▧</div>
+      <div>ရလဒ်မှတ်တမ်း မရှိသေးပါ။</div>
+    </div>
+  </section>
+
+  <section class="panel note">
+    <div class="note-title">⬡ &nbsp; မှတ်ချက်</div>
+    <p>• API မှ ရရှိသောဒေတာကိုသာ ဖော်ပြပါသည်။</p>
+    <p>• API မချိတ်ဆက်နိုင်ပါက ရလဒ်အတုကို မပြသပါ။</p>
+    <p>• ရလဒ်အတည်ပြုရန် တရားဝင်အရင်းအမြစ်ကို စစ်ဆေးပါ။</p>
+  </section>
+
+  <footer class="footer">
+    <strong>━━━━ 2D CLUB</strong> © 2026 <strong>━━━━</strong><br>
+    <em>Simple. Clean. Modern.</em>
+  </footer>
+</main>
+
+<script>
+/*
+  API ချိတ်ရန် အောက်ပါ CONFIG ကို သင့် API provider ပေးထားသည့်
+  URL / API Key / JSON field name များဖြင့် ပြင်ပါ။
+  API response ပုံစံမသိသေးသောကြောင့် အောက်တွင် placeholder ထားထားသည်။
+*/
+const CONFIG = {
+  API_URL: "https://www.htayapi.com/twod/thai/2dlive",
+  HISTORY_URL: "https://www.htayapi.com/twod/thai/2dhistory",
+  API_KEY: "htu0MG1VIOf7XjVQx3zWiDxQMT65DIax",
+  API_KEY_HEADER: "X-HTAYAPI-KEY" // Query parameter authentication is used below
+};
+
+const $ = id => document.getElementById(id);
+const resultEl = $("result");
+const messageEl = $("message");
+const messageTextEl = $("messageText");
+const refreshBtn = $("refresh");
+
+function setMessage(text, isError=false) {
+  messageTextEl.textContent = text;
+  messageEl.classList.toggle("error", isError);
+}
+function formatValue(value) {
+  if (value === undefined || value === null || value === "") return "--";
+  if (typeof value === "number") return value.toLocaleString("en-US");
+  return String(value);
+}
+function findValue(data, keys) {
+  if (!data || typeof data !== "object") return undefined;
+  for (const key of keys) {
+    if (data[key] !== undefined && data[key] !== null) return data[key];
+  }
+  if (data.data && typeof data.data === "object") return findValue(data.data, keys);
+  if (data.result && typeof data.result === "object") return findValue(data.result, keys);
+  return undefined;
+}
+function showRecords(data) {
+  const recordsEl = $("records");
+  if (!Array.isArray(data) || data.length === 0) {
+    recordsEl.className = "records-empty";
+    recordsEl.innerHTML = '<div class="empty-icon">▧</div><div>ရလဒ်မှတ်တမ်း မရှိသေးပါ။</div>';
+    $("recordCount").textContent = "0 RECORDS";
+    return;
+  }
+  const items = data.slice(0, 10);
+  $("recordCount").textContent = items.length + " RECORDS";
+  recordsEl.className = "record-list";
+  recordsEl.replaceChildren();
+  items.forEach(item => {
+    const row = document.createElement("div");
+    row.className = "record";
+    const date = document.createElement("span");
+    date.className = "record-date";
+    date.textContent = [item.date, item.time_1200 || item.time_430 || ""].filter(Boolean).join(" · ") || "မှတ်တမ်း";
+    const number = document.createElement("span");
+    number.className = "record-number";
+    const value = item.live ?? item.result_430 ?? item.result_1200 ?? item.result ?? item["2d"];
+    number.textContent = value == null || value === "" ? "--" : String(value).padStart(2, "0");
+    row.append(date, number);
+    recordsEl.appendChild(row);
+  });
+}
+async function loadResult() {
+  if (!CONFIG.API_KEY || CONFIG.API_KEY === "PASTE_YOUR_HTAY_API_KEY_HERE") {
+    setMessage("CONFIG.API_KEY နေရာမှာ သင့် Htay API Key ကို ထည့်ပါ။", true);
+    return;
+  }
+
+  refreshBtn.disabled = true;
+  refreshBtn.textContent = "⟳ ချိတ်ဆက်နေသည်...";
+  setMessage("Htay API မှ ဒေတာရယူနေပါသည်။");
+
+  async function apiGet(url) {
+    // Htay API docs also support authentication with ?key=YOUR_API_KEY.
+    // Use URLSearchParams so the key is encoded correctly.
+    const requestUrl = new URL(url);
+    requestUrl.searchParams.set("key", CONFIG.API_KEY);
+
+    const response = await fetch(requestUrl.toString(), {
+      method: "GET",
+      headers: { "Accept": "application/json" },
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      let detail = "";
+      try {
+        const body = await response.json();
+        detail = body.message ? ": " + body.message : "";
+      } catch (_) {}
+      throw new Error("HTTP " + response.status + detail);
+    }
+    return response.json();
+  }
+
+  try {
+    const json = await apiGet(CONFIG.API_URL);
+    if (json.result !== 1 || !json.data) {
+      throw new Error(json.message || "API က ဒေတာမပြန်ပေးပါ");
+    }
+
+    const data = json.data;
+    const live = data.live;
+
+    $("result").textContent =
+      live !== undefined && live !== null && /^\d{1,2}$/.test(String(live).trim())
+        ? String(live).trim().padStart(2, "0")
+        : "--";
+
+    $("setIndex").textContent =
+      data.live_set ?? data.set_430 ?? data.set_300 ?? data.set_1200 ?? data.set_1100 ?? "--";
+    $("setValue").textContent =
+      data.live_val ?? data.val_430 ?? data.val_300 ?? data.val_1200 ?? data.val_1100 ?? "--";
+
+    try {
+      const historyJson = await apiGet(CONFIG.HISTORY_URL);
+      if (historyJson.result === 1 && Array.isArray(historyJson.data)) {
+        showRecords(historyJson.data);
+      } else {
+        showRecords([]);
+      }
+    } catch (historyError) {
+      showRecords([]);
+      console.warn("History API unavailable:", historyError.message);
+    }
+
+    setMessage("API မှ ဒေတာရရှိပါသည်။ ရလဒ်ကို တရားဝင်အရင်းအမြစ်နှင့် တိုက်စစ်ပါ။");
+  } catch (error) {
+    $("result").textContent = "--";
+    $("setIndex").textContent = "--";
+    $("setValue").textContent = "--";
+    setMessage("API ချိတ်ဆက်မရပါ။ Key၊ Endpoint၊ ခွင့်ပြုချက်နှင့် CORS ကို စစ်ဆေးပါ။ (" + error.message + ")", true);
+    console.error("Htay API error:", error);
+  } finally {
+    refreshBtn.disabled = false;
+    refreshBtn.textContent = "↻  ရလဒ်ပြန်စစ်မယ်";
+  }
+}
+</script>
+</body>
+</html>
